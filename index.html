@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tuyển dụng — Sunjin Vietnam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0E1726;
+    --ink-soft:#3A4658;
+    --paper:#F5F6F4;
+    --paper-2:#ECEEEC;
+    --line:#C9D2CE;
+    --blue:#1F5FFF;
+    --blue-deep:#143F9E;
+    --signal:#16C79A;
+    --white:#FFFFFF;
+    --mono:'Space Mono',monospace;
+    --display:'Sora',sans-serif;
+    --body:'Inter',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--body);
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 28px}
+  .mono{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--blue)}
+
+  /* NAV */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(245,246,244,.82);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .logo{font-family:var(--display);font-weight:800;font-size:1.15rem;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+  .logo .mark{width:26px;height:26px;border:2px solid var(--blue);position:relative;transform:rotate(45deg)}
+  .logo .mark::after{content:"";position:absolute;inset:5px;background:var(--blue)}
+  .nav-links{display:flex;gap:30px;align-items:center}
+  .nav-links a{font-size:.9rem;font-weight:500;color:var(--ink-soft);transition:color .2s}
+  .nav-links a:hover{color:var(--blue)}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--ink);color:var(--paper);
+    padding:11px 22px;font-weight:600;font-size:.9rem;
+    border:none;cursor:pointer;transition:transform .2s,background .2s;
+    font-family:var(--body);
+  }
+  .btn:hover{background:var(--blue);transform:translateY(-2px)}
+  .btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+  .btn-ghost:hover{background:var(--ink);color:var(--paper)}
+  @media(max-width:780px){.nav-links a:not(.btn){display:none}}
+
+  /* HERO */
+  .hero{position:relative;padding:90px 0 70px;overflow:hidden}
+  .blueprint{
+    position:absolute;inset:0;z-index:0;
+    background-image:
+      linear-gradient(var(--line) 1px,transparent 1px),
+      linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    opacity:.5;
+    mask-image:radial-gradient(ellipse 80% 70% at 70% 30%,#000 30%,transparent 75%);
+  }
+  .hero-inner{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;gap:50px;align-items:center}
+  .hero h1{
+    font-family:var(--display);font-weight:800;
+    font-size:clamp(2.6rem,5.6vw,4.6rem);
+    line-height:1.02;letter-spacing:-.03em;margin:18px 0 22px;
+  }
+  .hero h1 .em{color:var(--blue);position:relative;white-space:nowrap}
+  .hero h1 .em::after{
+    content:"";position:absolute;left:0;bottom:6px;width:100%;height:10px;
+    background:var(--signal);opacity:.32;z-index:-1;
+  }
+  .hero p.lead{font-size:1.12rem;color:var(--ink-soft);max-width:520px;margin-bottom:30px}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+  .hero-stats{display:flex;gap:34px;margin-top:42px;flex-wrap:wrap}
+  .stat .n{font-family:var(--display);font-weight:700;font-size:2rem;color:var(--ink);line-height:1}
+  .stat .l{font-size:.82rem;color:var(--ink-soft);margin-top:4px}
+
+  /* hero panel — animated drafting card */
+  .draft-card{
+    position:relative;background:var(--white);border:1px solid var(--line);
+    box-shadow:0 30px 60px -30px rgba(14,23,38,.35);
+    padding:26px;
+  }
+  .draft-card .tag{position:absolute;top:-12px;left:24px;background:var(--blue);color:#fff;padding:4px 12px;font-family:var(--mono);font-size:.66rem;letter-spacing:.14em}
+  .draft-svg{width:100%;height:auto;display:block;margin-top:8px}
+  .draft-svg path,.draft-svg line,.draft-svg circle,.draft-svg rect.dl{
+    stroke-dasharray:1;stroke-dashoffset:1;
+    animation:draw 2.6s ease forwards;
+  }
+  .draft-svg .d2{animation-delay:.4s}
+  .draft-svg .d3{animation-delay:.8s}
+  .draft-svg .d4{animation-delay:1.2s}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  .draft-meta{display:flex;justify-content:space-between;margin-top:16px;font-family:var(--mono);font-size:.66rem;color:var(--ink-soft);letter-spacing:.1em}
+  @media(max-width:880px){.hero-inner{grid-template-columns:1fr}.draft-card{order:-1;max-width:440px}}
+
+  /* MARQUEE */
+  .strip{background:var(--ink);color:var(--paper);padding:16px 0;overflow:hidden;white-space:nowrap}
+  .strip-track{display:inline-block;animation:scroll 26s linear infinite}
+  .strip-track span{font-family:var(--display);font-weight:600;font-size:1.05rem;margin:0 34px;opacity:.85}
+  .strip-track span b{color:var(--signal)}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* SECTION SHELL */
+  section{padding:84px 0}
+  .sec-head{max-width:680px;margin-bottom:46px}
+  .sec-head h2{font-family:var(--display);font-weight:700;font-size:clamp(1.9rem,3.6vw,2.7rem);letter-spacing:-.02em;line-height:1.08;margin:14px 0 14px}
+  .sec-head p{color:var(--ink-soft);font-size:1.05rem}
+
+  /* JOBS */
+  .jobs{background:var(--paper-2)}
+  .job-list{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+  .job{
+    display:grid;grid-template-columns:auto 1fr auto auto;gap:24px;align-items:center;
+    padding:26px 8px;border-bottom:1px solid var(--line);cursor:pointer;
+    transition:background .25s,padding-left .25s;
+  }
+  .job:hover{background:var(--white);padding-left:20px}
+  .job .num{font-family:var(--mono);font-size:.8rem;color:var(--blue)}
+  .job .role{font-family:var(--display);font-weight:600;font-size:1.25rem}
+  .job .role small{display:block;font-family:var(--body);font-weight:400;font-size:.85rem;color:var(--ink-soft);margin-top:2px}
+  .job .meta{font-size:.85rem;color:var(--ink-soft);text-align:right;min-width:120px}
+  .job .arrow{font-size:1.3rem;color:var(--blue);transition:transform .25s}
+  .job:hover .arrow{transform:translate(4px,-4px)}
+  .job .badge{display:inline-block;font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;padding:3px 9px;background:var(--signal);color:var(--ink);margin-left:8px}
+  @media(max-width:720px){.job{grid-template-columns:auto 1fr auto}.job .meta{display:none}}
+
+  /* CULTURE / PERKS */
+  .perks{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+  .perk{background:var(--paper);padding:34px 28px;transition:background .25s}
+  .perk:hover{background:var(--white)}
+  .perk .ic{font-family:var(--mono);font-weight:700;font-size:.78rem;color:var(--blue);letter-spacing:.1em;margin-bottom:16px}
+  .perk h3{font-family:var(--display);font-weight:600;font-size:1.15rem;margin-bottom:8px}
+  .perk p{font-size:.94rem;color:var(--ink-soft)}
+  @media(max-width:860px){.perks{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.perks{grid-template-columns:1fr}}
+
+  /* PROJECTS */
+  .projects{background:var(--ink);color:var(--paper)}
+  .projects .sec-head h2{color:var(--paper)}
+  .projects .sec-head p{color:#9AA6B8}
+  .projects .mono{color:var(--signal)}
+  .proj-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+  .proj{position:relative;overflow:hidden;border:1px solid #243047;min-height:230px;display:flex;flex-direction:column;justify-content:flex-end;padding:24px;transition:border-color .3s}
+  .proj:hover{border-color:var(--signal)}
+  .proj img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55;transition:transform .6s ease,opacity .3s}
+  .proj:hover img{transform:scale(1.06);opacity:.7}
+  .proj::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(14,23,38,.92),rgba(14,23,38,.15))}
+  .proj .pc{position:relative;z-index:2}
+  .proj .cat{font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;color:var(--signal)}
+  .proj .pt{font-family:var(--display);font-weight:600;font-size:1.2rem;margin-top:6px}
+  .p-a{grid-column:span 7}.p-b{grid-column:span 5}.p-c{grid-column:span 5}.p-d{grid-column:span 7}
+  @media(max-width:760px){.proj{grid-column:span 12 !important}}
+
+  /* FORM */
+  .apply{background:var(--paper-2)}
+  .apply-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:start}
+  .apply aside h2{font-family:var(--display);font-weight:700;font-size:clamp(1.9rem,3.5vw,2.6rem);letter-spacing:-.02em;line-height:1.1;margin:14px 0 18px}
+  .apply aside p{color:var(--ink-soft);margin-bottom:24px}
+  .checklist{list-style:none;display:flex;flex-direction:column;gap:14px}
+  .checklist li{display:flex;gap:12px;align-items:flex-start;font-size:.96rem}
+  .checklist li b{font-family:var(--mono);color:var(--signal);font-size:.85rem}
+  form{background:var(--white);border:1px solid var(--line);padding:34px}
+  .field{margin-bottom:20px}
+  .field label{display:block;font-size:.82rem;font-weight:600;margin-bottom:7px;color:var(--ink)}
+  .field label span{color:var(--blue)}
+  .field input,.field select,.field textarea{
+    width:100%;padding:13px 14px;border:1.5px solid var(--line);background:var(--paper);
+    font-family:var(--body);font-size:.95rem;color:var(--ink);transition:border-color .2s,background .2s;
+  }
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--blue);background:var(--white)}
+  .field textarea{resize:vertical;min-height:96px}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .file-drop{border:1.5px dashed var(--line);padding:18px;text-align:center;font-size:.88rem;color:var(--ink-soft);cursor:pointer;transition:border-color .2s,background .2s}
+  .file-drop:hover{border-color:var(--blue);background:var(--paper)}
+  .submit{width:100%;justify-content:center;margin-top:6px;padding:15px}
+  .form-note{font-size:.78rem;color:var(--ink-soft);margin-top:12px;text-align:center}
+  .ok{display:none;background:var(--signal);color:var(--ink);padding:16px;font-weight:600;text-align:center;margin-bottom:18px;font-size:.92rem}
+  @media(max-width:860px){.apply-grid{grid-template-columns:1fr;gap:36px}.row2{grid-template-columns:1fr}}
+
+  /* FOOTER */
+  footer{background:var(--ink);color:#9AA6B8;padding:54px 0 30px}
+  .foot-top{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;border-bottom:1px solid #243047;padding-bottom:30px}
+  .foot-top .logo{color:var(--paper)}
+  .foot-top .logo .mark{border-color:var(--signal)}
+  .foot-top .logo .mark::after{background:var(--signal)}
+  .foot-cols{display:flex;gap:54px;flex-wrap:wrap}
+  .foot-col h4{color:var(--paper);font-size:.8rem;font-family:var(--mono);letter-spacing:.12em;margin-bottom:12px}
+  .foot-col a{display:block;font-size:.9rem;margin-bottom:8px;transition:color .2s}
+  .foot-col a:hover{color:var(--signal)}
+  .foot-bot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:24px;font-size:.8rem}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none !important}
+    .reveal{opacity:1;transform:none;transition:none}
+    .draft-svg path,.draft-svg line,.draft-svg circle,.draft-svg rect.dl{stroke-dashoffset:0}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-inner">
+    <div class="logo"><span class="mark"></span> SUNJIN<span style="color:var(--blue)">.</span>VN</div>
+    <div class="nav-links">
+      <a href="#jobs">Vị trí mở</a>
+      <a href="#culture">Văn hóa</a>
+      <a href="#projects">Dự án</a>
+      <a href="#apply" class="btn">Ứng tuyển ngay</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="blueprint"></div>
+  <div class="wrap hero-inner">
+    <div class="reveal in">
+      <span class="mono">Tuyển dụng 2026 · Hà Nội</span>
+      <h1>Bản vẽ tiếp theo <span class="em">mang tên bạn</span></h1>
+      <p class="lead">Sunjin Vietnam — công ty tư vấn thiết kế liên doanh Hàn–Việt với hơn 300 dự án hoàn thành. Chúng tôi đang tìm những kiến trúc sư và kỹ sư muốn để lại dấu ấn trên đường chân trời.</p>
+      <div class="hero-cta">
+        <a href="#jobs" class="btn">Xem vị trí mở →</a>
+        <a href="#culture" class="btn btn-ghost">Vì sao chọn Sunjin</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="n">100+</div><div class="l">Kiến trúc sư & kỹ sư</div></div>
+        <div class="stat"><div class="n">300+</div><div class="l">Dự án bàn giao</div></div>
+        <div class="stat"><div class="n">20</div><div class="l">Năm Hàn–Việt</div></div>
+      </div>
+    </div>
+
+    <div class="draft-card reveal in">
+      <span class="tag">SJ · CONCEPT 045</span>
+      <svg class="draft-svg" viewBox="0 0 340 230" fill="none" stroke="#1F5FFF" stroke-width="1.4">
+        <rect class="dl" x="30" y="150" width="280" height="50" stroke="#C9D2CE"/>
+        <path d="M30 150 L100 70 L170 110 L240 50 L310 150" class="d2"/>
+        <path d="M100 70 L100 200 M170 110 L170 200 M240 50 L240 200" stroke="#C9D2CE" class="d3"/>
+        <line x1="30" y1="200" x2="310" y2="200" stroke="#0E1726" stroke-width="2"/>
+        <circle cx="240" cy="50" r="5" fill="#16C79A" stroke="none" class="d4"/>
+        <path d="M55 150 L55 120 L80 120 L80 150" stroke="#16C79A" class="d4"/>
+        <path d="M260 150 L260 115 L290 115 L290 150" stroke="#16C79A" class="d4"/>
+      </svg>
+      <div class="draft-meta"><span>SCALE 1:200</span><span>REV. A · K.T.S</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="strip">
+  <div class="strip-track">
+    <span>KIẾN TRÚC · <b>ARCHITECTURE</b></span><span>KẾT CẤU · <b>STRUCTURE</b></span><span>CƠ ĐIỆN · <b>MEP</b></span><span>DỰ TOÁN · <b>QS</b></span><span>BIM · <b>AI WORKFLOW</b></span>
+    <span>KIẾN TRÚC · <b>ARCHITECTURE</b></span><span>KẾT CẤU · <b>STRUCTURE</b></span><span>CƠ ĐIỆN · <b>MEP</b></span><span>DỰ TOÁN · <b>QS</b></span><span>BIM · <b>AI WORKFLOW</b></span>
+  </div>
+</div>
+
+<!-- JOBS -->
+<section class="jobs" id="jobs">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="mono">// 5 vị trí đang tuyển</span>
+      <h2>Tìm vai trò của bạn</h2>
+      <p>Từ concept design có bản sắc đến triển khai kỹ thuật tốc độ cao. Chọn nơi bạn tạo ra giá trị.</p>
+    </div>
+    <div class="job-list reveal">
+      <a class="job" href="#apply" data-role="Kiến trúc sư chủ trì">
+        <span class="num">01</span>
+        <span class="role">Kiến trúc sư chủ trì <span class="badge">HOT</span><small>Concept &amp; phát triển thiết kế</small></span>
+        <span class="meta">Toàn thời gian · Hà Nội<br>3+ năm KN</span>
+        <span class="arrow">↗</span>
+      </a>
+      <a class="job" href="#apply" data-role="Kiến trúc sư">
+        <span class="num">02</span>
+        <span class="role">Kiến trúc sư<small>Triển khai kỹ thuật &amp; BIM</small></span>
+        <span class="meta">Toàn thời gian · Hà Nội<br>1–3 năm KN</span>
+        <span class="arrow">↗</span>
+      </a>
+      <a class="job" href="#apply" data-role="Kỹ sư kết cấu">
+        <span class="num">03</span>
+        <span class="role">Kỹ sư kết cấu<small>Nhà cao tầng &amp; tổ hợp</small></span>
+        <span class="meta">Toàn thời gian · Hà Nội<br>2+ năm KN</span>
+        <span class="arrow">↗</span>
+      </a>
+      <a class="job" href="#apply" data-role="Kỹ sư MEP">
+        <span class="num">04</span>
+        <span class="role">Kỹ sư cơ điện (MEP)<small>Thiết kế hệ thống công trình</small></span>
+        <span class="meta">Toàn thời gian · Hà Nội<br>2+ năm KN</span>
+        <span class="arrow">↗</span>
+      </a>
+      <a class="job" href="#apply" data-role="Kỹ sư dự toán">
+        <span class="num">05</span>
+        <span class="role">Kỹ sư dự toán (QS)<small>Khối lượng &amp; chi phí</small></span>
+        <span class="meta">Toàn thời gian · Hà Nội<br>2+ năm KN</span>
+        <span class="arrow">↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CULTURE -->
+<section id="culture">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="mono">// Vì sao chọn Sunjin</span>
+      <h2>Nơi nghề được tôn trọng</h2>
+      <p>Chúng tôi tin người làm nghề giỏi cần công cụ tốt, dự án xứng đáng và không gian để sáng tạo.</p>
+    </div>
+    <div class="perks reveal">
+      <div class="perk"><div class="ic">A1</div><h3>Dự án đáng làm</h3><p>Trường học đoạt giải, chung cư, tổ hợp và trụ sở quy mô lớn — danh mục đủ rộng để bạn thử thách bản thân.</p></div>
+      <div class="perk"><div class="ic">A2</div><h3>Công cụ bản quyền đầy đủ</h3><p>Autodesk AEC Collection, CSI, hạ tầng BIM và quy trình AI nội bộ — bạn làm nghề, không chật vật vì công cụ.</p></div>
+      <div class="perk"><div class="ic">A3</div><h3>Lộ trình rõ ràng</h3><p>Từ triển khai đến chủ trì concept. Năng lực được nhìn nhận, không bị giới hạn bởi thâm niên.</p></div>
+      <div class="perk"><div class="ic">A4</div><h3>Học hỏi liên tục</h3><p>Liên doanh Hàn–Việt, kết nối chuyên gia quốc tế và môi trường đề cao phản biện đa chiều.</p></div>
+      <div class="perk"><div class="ic">A5</div><h3>Phúc lợi minh bạch</h3><p>Lương cạnh tranh, thưởng dự án, bảo hiểm đầy đủ và chính sách nghỉ phép rõ ràng.</p></div>
+      <div class="perk"><div class="ic">A6</div><h3>Bản sắc Việt</h3><p>Chúng tôi theo đuổi concept design mang bản sắc văn hóa Việt — không sao chép, mà sáng tạo.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects" id="projects">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="mono">// Danh mục đã bàn giao</span>
+      <h2>Những gì chúng ta cùng dựng nên</h2>
+      <p>Một phần nhỏ trong hơn 300 dự án — và là khởi đầu cho những gì bạn sẽ thiết kế tiếp theo.</p>
+    </div>
+    <div class="proj-grid reveal">
+      <div class="proj p-a"><img src="https://images.unsplash.com/photo-1562774053-701939374585?w=900&q=70" alt="Trường học"><div class="pc"><div class="cat">GIÁO DỤC</div><div class="pt">Trường học đoạt giải thiết kế</div></div></div>
+      <div class="proj p-b"><img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=700&q=70" alt="Chung cư"><div class="pc"><div class="cat">NHÀ Ở</div><div class="pt">Chung cư &amp; tổ hợp cao tầng</div></div></div>
+      <div class="proj p-c"><img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=700&q=70" alt="Văn phòng"><div class="pc"><div class="cat">VĂN PHÒNG</div><div class="pt">Trụ sở &amp; tòa nhà thương mại</div></div></div>
+      <div class="proj p-d"><img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=900&q=70" alt="Tổ hợp công cộng"><div class="pc"><div class="cat">CÔNG CỘNG</div><div class="pt">Tổ hợp hành chính quy mô lớn</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- APPLY -->
+<section class="apply" id="apply">
+  <div class="wrap apply-grid">
+    <aside class="reveal">
+      <span class="mono">// Ứng tuyển</span>
+      <h2>Gửi hồ sơ trong 3 phút</h2>
+      <p>Hãy cho chúng tôi thấy cách bạn tư duy. Portfolio nói nhiều hơn mọi dòng mô tả.</p>
+      <ul class="checklist">
+        <li><b>01</b><span>Điền thông tin và chọn vị trí bạn quan tâm.</span></li>
+        <li><b>02</b><span>Đính kèm CV và portfolio (PDF, tối đa 20MB).</span></li>
+        <li><b>03</b><span>Đội ngũ tuyển dụng phản hồi trong vòng 5 ngày làm việc.</span></li>
+      </ul>
+    </aside>
+
+    <form class="reveal" id="applyForm" novalidate
+          action="https://formspree.io/f/mrevjekj"
+          method="POST" enctype="multipart/form-data">
+      <div class="ok" id="okMsg">✓ Cảm ơn bạn! Hồ sơ đã được ghi nhận. Chúng tôi sẽ liên hệ sớm.</div>
+      <div class="row2">
+        <div class="field"><label>Họ và tên <span>*</span></label><input type="text" name="name" required placeholder="Nguyễn Văn A"></div>
+        <div class="field"><label>Số điện thoại <span>*</span></label><input type="tel" name="phone" required placeholder="09xx xxx xxx"></div>
+      </div>
+      <div class="field"><label>Email <span>*</span></label><input type="email" name="email" required placeholder="ban@email.com"></div>
+      <div class="row2">
+        <div class="field">
+          <label>Vị trí ứng tuyển <span>*</span></label>
+          <select name="role" id="roleSelect" required>
+            <option value="">— Chọn vị trí —</option>
+            <option>Kiến trúc sư chủ trì</option>
+            <option>Kiến trúc sư</option>
+            <option>Kỹ sư kết cấu</option>
+            <option>Kỹ sư cơ điện (MEP)</option>
+            <option>Kỹ sư dự toán (QS)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Kinh nghiệm</label>
+          <select name="exp">
+            <option>Dưới 1 năm</option>
+            <option>1–3 năm</option>
+            <option>3–5 năm</option>
+            <option>Trên 5 năm</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label>Lời nhắn / link portfolio</label><textarea name="msg" placeholder="Behance, Drive, hoặc đôi dòng về bạn..."></textarea></div>
+      <div class="field">
+        <label>CV / Portfolio</label>
+        <div class="file-drop" id="fileDrop">📎 Kéo thả hoặc bấm để chọn tệp (PDF · ≤20MB)
+          <input type="file" id="fileInput" name="cv" accept=".pdf,.zip" hidden>
+        </div>
+      </div>
+      <button type="submit" class="btn submit">Gửi hồ sơ ứng tuyển →</button>
+      <p class="form-note">Bằng việc gửi, bạn đồng ý để Sunjin Vietnam liên hệ về cơ hội nghề nghiệp.</p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <div class="logo"><span class="mark"></span> SUNJIN<span style="color:var(--signal)">.</span>VN</div>
+        <p style="margin-top:12px;max-width:300px;font-size:.9rem">Công ty Liên doanh Sunjin Vietnam — Tư vấn thiết kế AEC Hàn–Việt từ 2004.</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col"><h4>Tuyển dụng</h4><a href="#jobs">Vị trí mở</a><a href="#culture">Văn hóa</a><a href="#apply">Ứng tuyển</a></div>
+        <div class="foot-col"><h4>Liên hệ</h4><a href="mailto:tuyendung@sunjinvietnam.vn">tuyendung@sunjinvietnam.vn</a><a href="#">Hà Nội, Việt Nam</a></div>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 Sunjin Vietnam. Bảo lưu mọi quyền.</span>
+      <span class="mono" style="color:#5A6678">BUILT FOR THE NEXT DRAWING</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // Job click -> preselect role + scroll
+  document.querySelectorAll('.job').forEach(j=>{
+    j.addEventListener('click',e=>{
+      const r=j.getAttribute('data-role');
+      const sel=document.getElementById('roleSelect');
+      const norm=r==='Kỹ sư MEP'?'Kỹ sư cơ điện (MEP)':(r==='Kỹ sư dự toán'?'Kỹ sư dự toán (QS)':r);
+      [...sel.options].forEach(o=>{if(o.value===norm)sel.value=norm});
+    });
+  });
+
+  // File drop label
+  const fd=document.getElementById('fileDrop'),fi=document.getElementById('fileInput');
+  fd.addEventListener('click',()=>fi.click());
+  fi.addEventListener('change',()=>{if(fi.files[0])fd.textContent='📎 '+fi.files[0].name});
+
+  // Form submit (gửi thật qua Formspree)
+  document.getElementById('applyForm').addEventListener('submit',async e=>{
+    e.preventDefault();
+    const f=e.target;
+    if(!f.name.value||!f.email.value||!f.phone.value||!f.role.value){
+      alert('Vui lòng điền các trường bắt buộc (*).');return;
+    }
+    const btn=f.querySelector('.submit');
+    const okMsg=document.getElementById('okMsg');
+    const original=btn.textContent;
+    btn.disabled=true;btn.textContent='Đang gửi…';
+    try{
+      const res=await fetch(f.action,{
+        method:'POST',
+        body:new FormData(f),
+        headers:{'Accept':'application/json'}
+      });
+      if(res.ok){
+        okMsg.style.display='block';
+        btn.textContent='✓ Đã gửi';
+        okMsg.scrollIntoView({behavior:'smooth',block:'center'});
+        setTimeout(()=>{
+          f.reset();
+          fd.textContent='📎 Kéo thả hoặc bấm để chọn tệp (PDF · ≤20MB)';
+          btn.disabled=false;btn.textContent=original;
+        },2500);
+      }else{
+        const data=await res.json().catch(()=>({}));
+        const err=data.errors?data.errors.map(x=>x.message).join(', '):'Gửi không thành công.';
+        alert('Lỗi: '+err+'\nVui lòng thử lại hoặc email trực tiếp: tuyendung@sunjinvietnam.vn');
+        btn.disabled=false;btn.textContent=original;
+      }
+    }catch(err){
+      alert('Không gửi được hồ sơ (lỗi mạng). Vui lòng thử lại hoặc email trực tiếp: tuyendung@sunjinvietnam.vn');
+      btn.disabled=false;btn.textContent=original;
+    }
+  });
+</script>
+</body>
+</html>
